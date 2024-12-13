@@ -1,0 +1,140 @@
+
+
+                       /* PAGINA DONDE SE MUESTRA LOS VEHICULOS DISPONIBLES */
+
+/* Contenedor principal */
+.vehiculos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(249, 249, 249, 0.4); /* Fondo blanco translúcido */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Opcional: Sombras para mayor contraste */
+    margin-bottom: 50px;
+}
+
+/* Tarjeta individual */
+.vehiculo-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 280px;
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+     overflow: hidden;
+}
+
+/* Estilo para el título */
+.vehiculo-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Detalles del vehículo */
+.vehiculo-card p {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+/* Botón de reservar */
+.submit-btn {
+    display: block; /* Asegura que ocupe todo el ancho */
+    text-align: center; /* Centra el texto dentro del enlace */
+    margin-top: 15px;
+    padding: 15px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.9s ease;
+    text-decoration: none; /* Quita el subrayado del enlace */
+     width: 100%; /* Ajusta el botón al 100% del contenedor menos el padding */
+        box-sizing: border-box; /* Asegura que el padding no afecte al ancho total */
+}
+
+.submit-btn:hover {
+     background: linear-gradient(to right, #a8e6cf, #81c784, #388e3c); /* Verde más oscuro */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave alrededor del botón */
+        color: white; /* Asegura que el texto permanezca blanco */
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto al pasar el mouse por la tarjeta */
+.vehiculo-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.titulo-buscar-vehiculos {
+    font-size: 2.5em; /* Tamaño grande para destacar */
+    color: #ffffff; /* Texto blanco */
+    text-align: center; /* Centrado horizontal */
+    margin: 20px 0; /* Espaciado superior e inferior */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+    font-family: 'Arial', sans-serif; /* Fuente moderna y legible */
+    letter-spacing: 1px; /* Espaciado entre letras para mayor legibilidad */
+}
+
+.fondo-gradiente{
+background: linear-gradient(to right, #dbeafe, #93c5fd, #3b82f6);
+}
+
+.vehiculo-imagen {
+    width: 100%; /* Hace que la imagen ocupe todo el ancho de la tarjeta */
+    height: auto; /* Mantiene la proporción original de la imagen */
+    border-radius: 8px 8px 0 0; /* Redondea la parte superior de la imagen */
+    margin-bottom: 15px; /* Da espacio entre la imagen y el contenido de la tarjeta */
+    object-fit: cover; /* Asegura que la imagen se recorte bien si es necesario */
+}
+
+h1.titulo {
+    font-family: 'Arial', sans-serif; /* Cambia la fuente */
+    font-size: 1.3rem; /* Tamaño de letra grande */
+    font-weight: bold; /* Aumenta el grosor de la fuente */
+    color: #2c3e50; /* Color del texto, un tono oscuro */
+    padding: 15px; /* Espaciado interno alrededor del texto */
+    text-align: center; /* Centra el texto */
+    margin-bottom: 20px; /* Espaciado debajo del título */
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+
+                               /* formulario para registrar un cliente */
+
+/* Estilos para el contenedor del formulario */
+.form-container-cliente {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(249, 249, 249, 0.4); /* Fondo blanco translúcido */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Opcional: Sombras para mayor contraste */
+    border-radius: 8px;
+}
+
+/* Estilos para las etiquetas del formulario */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Estilos para los campos de entrada */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+
+

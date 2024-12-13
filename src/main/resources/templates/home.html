@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Contenedor principal que usa Flexbox -->
+<div class="container">
+
+
+    <!-- Incluir el header -->
+    <div th:replace="~{header :: header}"></div>
+
+    <!-- Main Image Section -->
+    <div class="main-image">
+
+        <form class="search-form" action="/user/buscar-vehiculos" method="GET">
+            <!-- Fila 1: Selección de tipo de vehículo -->
+            <div class="vehicle-type">
+                <input type="radio" id="car" name="vehicleType" value="Coche" checked>
+                <label for="car">Coche</label>
+                <input type="radio" id="motorcycle" name="vehicleType" value="Moto">
+                <label for="motorcycle">Moto</label>
+            </div>
+
+
+
+            <!-- Fila 2: Lugar de recogida y destino -->
+            <div class="row">
+                <div class="form-group">
+                    <label for="pickupLocation">Ciudad de recogida</label>
+                    <select id="pickupLocation" name="pickupLocation" required>
+                        <option value="" disabled selected></option>
+                        <option th:each="ciudad : ${ciudades}"
+                                th:value="${ciudad}"
+                                th:text="${ciudad}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dropoffLocation">Ciudad de destino</label>
+                    <select id="dropoffLocation" name="dropoffLocation" required>
+                        <option value="" disabled selected></option>
+                        <option th:each="ciudad : ${ciudades}"
+                                th:value="${ciudad}"
+                                th:text="${ciudad}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- Fila 3: Fecha de inicio y fecha final -->
+            <div class="row">
+                <div class="form-group">
+                    <label for="startDate">Fecha de recogida</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">Fecha de devolución</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+            </div>
+
+            <!-- Fila 4: Botón de búsqueda -->
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Incluir el footer -->
+    <div th:replace="~{footer :: footer}"></div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Contenedor principal que usa Flexbox -->
+<div class="container">
+
+
+    <!-- Incluir el header -->
+    <div th:replace="~{header :: headerAdminLogged}"></div>
+
+    <!-- Main Image Section -->
+    <div class="main-image">
+        <form class="search-form">
+            <p>Menú de Administración:</p>
+            <a th:href="@{/admin/vehiculos}" class="btn">Gestión de Vehiculos</a>
+            <a th:href="@{/admin/clientes}" class="btn">Gestión de Clientes</a>
+            <a th:href="@{/admin/reservas}" class="btn">Gestión de Reservas</a>
+        </form>
+    </div>
+
+    <!-- Incluir el footer -->
+    <div th:replace="footer :: footer"></div>
+
+</div>
+
+</body>
+</html>

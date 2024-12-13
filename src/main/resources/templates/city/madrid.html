@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sucursal Madrid</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/city.css"> <!-- Estilo específico de Madrid -->
+</head>
+<body class="city-page">
+
+<!-- Incluir el header -->
+<div th:replace="~{header :: header}"></div>
+
+<!-- Título de la sucursal -->
+<div class="branch-title">
+  <h1>Madrid</h1>
+</div>
+
+<!-- Contenido específico de la sucursal de Madrid -->
+<div class="branch-info">
+  <!-- Texto descriptivo de la sucursal -->
+  <div class="branch-text">
+    <h2>Bienvenido a la Sucursal Madrid</h2>
+    <p>La sucursal de Madrid fue inaugurada en 2010, y desde entonces hemos sido un referente en la ciudad en cuanto a alquiler de vehículos. Nuestra misión es ofrecer un servicio de alta calidad, con opciones tanto para particulares como para empresas que necesiten vehículos de manera puntual o a largo plazo.</p>
+    <p>En Madrid, tenemos una ubicación privilegiada en pleno centro de la ciudad, cerca de todas las principales conexiones de transporte público, lo que hace fácil acceder a nosotros desde cualquier punto de la ciudad.</p>
+    <p>Contamos con una amplia flota de vehículos, desde coches compactos hasta modelos de lujo, al igual que una amplia gama de motocicletas.</p>
+    <p>Nuestro equipo de atención al cliente está siempre dispuesto a ayudarte a elegir el vehículo que mejor se adapte a tus necesidades, ya sea para un viaje de negocio, unas vacaciones o para mudarte de casa.</p>
+    <p>Dirección: Calle de Gran Vía, 42, Madrid, España</p>
+    <p>Teléfono: +34 912 345 678</p>
+    <p>Horario: Lunes a Viernes de 9:00 a 19:00 | Sábados de 10:00 a 14:00</p>
+     </div>
+
+  <div>
+  <!-- Imagen de la sucursal -->
+  <div class="branch-image">
+    <img src="/images/madrid.jpg" alt="Sucursal Madrid" class="branch-img">
+  </div>
+
+
+<!-- Botones de acción -->
+<div class="action-buttons">
+  <button class="action-btn" onclick="window.location.href='/vehiculos?ciudad=Madrid'">Consulta los vehículos de esta sucursal</button>
+  <button class="action-btn" onclick="window.location.href='/home'">Realizar reserva</button>
+</div>
+</div>
+</div>
+
+<!-- Incluir el footer -->
+<div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>

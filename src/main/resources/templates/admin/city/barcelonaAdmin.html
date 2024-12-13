@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucursal Barcelona</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/city.css"> <!-- Estilo específico de Barcelona -->
+</head>
+<body class="city-page">
+
+<!-- Incluir el header -->
+<div th:replace="~{header :: headerAdminLogged}"></div>
+
+<!-- Título de la sucursal -->
+<div class="branch-title">
+    <h1>Barcelona</h1>
+</div>
+
+<!-- Contenido específico de la sucursal de Barcelona -->
+<div class="branch-info">
+    <!-- Texto descriptivo de la sucursal -->
+    <div class="branch-text">
+        <h2>Bienvenido a la Sucursal Barcelona</h2>
+        <p>La sucursal de Barcelona fue inaugurada en 2015, consolidándose rápidamente como uno de los principales puntos de alquiler de vehículos en la ciudad. Nos enorgullece ofrecer un servicio de alta calidad, adaptado a las necesidades tanto de particulares como de empresas.</p>
+        <p>Ubicados en el corazón de la ciudad, cerca de las principales atracciones y con fácil acceso al transporte público, nuestra sucursal es un lugar ideal para quienes necesitan un vehículo en Barcelona.</p>
+        <p>Nuestra flota incluye una amplia variedad de opciones, desde vehículos compactos hasta vehículos de lujo, además de una selección de motocicletas para quienes prefieren dos ruedas.</p>
+        <p>El equipo de atención al cliente está siempre listo para ayudarte a seleccionar el vehículo perfecto, ya sea para un viaje de negocio, una escapada o una mudanza.</p>
+        <p>Dirección: Avenida Diagonal, 123, Barcelona, España</p>
+        <p>Teléfono: +34 934 567 890</p>
+        <p>Horario: Lunes a Viernes de 9:00 a 19:00 | Sábados de 10:00 a 14:00</p>
+    </div>
+    <div>
+    <!-- Imagen de la sucursal -->
+    <div class="branch-image">
+        <img src="/images/barcelona.jpg" alt="Sucursal Barcelona" class="branch-img">
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <button class="action-btn" onclick="window.location.href='/vehiculos?ciudad=Barcelona'">Consulta los vehículos de esta sucursal</button>
+        <button class="action-btn" onclick="window.location.href='/home'">Realizar reserva</button>
+    </div>
+</div>
+</div>
+
+<!-- Incluir el footer -->
+<div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>

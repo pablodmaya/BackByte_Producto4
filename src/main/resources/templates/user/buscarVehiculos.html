@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resultados de búsqueda</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/buscarVehiculos.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body class="fondo-gradiente">
+
+
+<div class="container">
+
+    <div th:replace="~{header :: headerUserLogged}"></div>
+
+<h1 class="titulo-buscar-vehiculos">Vehículos Disponibles en tus fechas</h1>
+<div class="vehiculos-container">
+    <div class="vehiculo-card" th:each="vehiculo : ${vehiculos}">
+        <img th:src="@{'/images/Vehiculo/Vehiculo' + ${vehiculo.id_Vehiculo} + '.png'}" alt="Imagen del vehículo" class="vehiculo-imagen"/>
+        <h2 th:text="${vehiculo.marca} + ' ' + ${vehiculo.modelo}"></h2>
+
+        <p><strong>Localización:</strong> <span th:text="${vehiculo.localizacion}"></span></p>
+        <p><strong>Precio Diario:</strong> $<span th:text="${vehiculo.precioDia}"></span></p>
+
+        <p><strong>Fecha de Recogida:</strong> <span th:text="${startDate}"></span></p>
+        <p><strong>Fecha de Devolución:</strong> <span th:text="${endDate}"></span></p>
+
+        <a th:href="@{/user/reservar/{idVehiculo}(idVehiculo=${vehiculo.id_Vehiculo}, startDate=${startDate}, endDate=${endDate})}" class="submit-btn" type="button">Reservar</a>
+    </div>
+</div>
+
+    <div th:replace="~{footer :: footer}"></div>
+
+</div>
+</body>
+</html>

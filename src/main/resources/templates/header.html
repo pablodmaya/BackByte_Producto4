@@ -1,0 +1,121 @@
+<!-- src/main/resources/templates/header.html -->
+<header xmlns:th="http://www.w3.org/1999/xhtml">
+  <div class="navbar">
+    <!-- Logo y nombre -->
+    <div class="logo">
+      <span class="site-name">BackByte</span>
+    </div>
+
+    <div class="navbar-center">
+      <div class="auth-links">
+        <a href="/">Inicio</a>
+      </div>
+
+      <!-- Menú desplegable para Ciudades -->
+      <div class="dropdown">
+        <button class="dropbtn">Nuestras sucursales</button>
+        <div class="dropdown-content">
+          <a href="/madrid">Madrid</a>
+          <a href="/barcelona">Barcelona</a>
+          <a href="/bilbao">Bilbao</a>
+          <a href="/sevilla">Sevilla</a>
+          <a href="/valencia">Valencia</a>
+        </div>
+      </div>
+
+      <!-- Menú para "Nuestros vehículos" -->
+      <div class="auth-links">
+        <a href="/vehiculos">Nuestros vehículos</a>
+      </div>
+    </div>
+
+    <!-- Opciones de inicio de sesión y registro -->
+    <div class="auth-links">
+      <a href="/registro">Registrarse</a> | <a href="/login">Iniciar sesión</a>
+    </div>
+  </div>
+</header>
+
+
+<headerUserLogged xmlns:th="http://www.w3.org/1999/xhtml">
+  <div class="navbar">
+    <!-- Logo y nombre -->
+    <div class="logo">
+      <span class="site-name">BackByte</span>
+    </div>
+
+    <div class="navbar-center">
+      <div class="auth-links">
+        <a th:href="@{/user/home}">Inicio</a>
+      </div>
+
+      <!-- Menú desplegable para Ciudades -->
+      <div class="dropdown">
+        <button class="dropbtn">Nuestras sucursales</button>
+        <div class="dropdown-content">
+          <a th:href="@{/user/madrid}">Madrid</a>
+          <a th:href="@{/user/barcelona}">Barcelona</a>
+          <a th:href="@{/user/bilbao}">Bilbao</a>
+          <a th:href="@{/user/sevilla}">Sevilla</a>
+          <a th:href="@{/user/valencia}">Valencia</a>
+        </div>
+      </div>
+<!-- EN NUESTROS VEHICULOS, EN LA PAGINA DE USUARIO (HAY QUE CREARLA) HACERLA SIMILAR SIN CRUD) -->
+      <!-- Menú para "Nuestros vehículos" -->
+      <div class="auth-links">
+        <a th:href="@{/user/vehiculos}">Listado de vehículos</a>
+      </div>
+    </div>
+
+    <!-- Opciones de usuario logueado -->
+<!-- acabar de tocar con pablo -->
+    <div class="dropdown">
+      <button class="dropbtn">Usuario</button>
+      <div class="dropdown-content">
+        <a th:href="@{/user/mis-reservas}">Mis reservas</a>
+        <a th:href="@{/user/mi-perfil}">Mi perfil</a>
+        <a th:href="@{/logout}">Cerrar sesión</a>
+
+      </div>
+    </div>
+  </div>
+</headerUserLogged>
+
+
+<headerAdminLogged xmlns:th="http://www.w3.org/1999/xhtml">
+  <div class="navbar">
+    <!-- Logo y nombre -->
+    <div class="logo">
+      <span class="site-name">BackByte</span>
+    </div>
+
+    <div class="navbar-center">
+      <div class="auth-links">
+        <a th:href="@{/admin/home}">Inicio</a>
+      </div>
+
+      <!-- Menú para "Nuestros vehículos" -->
+      <div class="auth-links">
+        <a th:href="@{/admin/vehiculos}">Vehículos</a>
+      </div>
+
+      <!-- Menú para "Nuestros clientes" -->
+      <div class="auth-links">
+        <a th:href="@{/admin/clientes}">Clientes</a>
+      </div>
+
+      <div class="auth-links">
+        <a th:href="@{/admin/reservas}">Reservas</a>
+      </div>
+    </div>
+
+    <!-- Opciones de usuario logueado -->
+
+    <div class="dropdown">
+      <button class="dropbtn">Admin</button>
+      <div class="dropdown-content">
+        <a th:href="@{/logout}">Cerrar sesión</a>
+      </div>
+    </div>
+  </div>
+</headerAdminLogged>

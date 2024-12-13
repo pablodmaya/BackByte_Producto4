@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucursal Valencia</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/city.css"> <!-- Estilo específico de Valencia -->
+</head>
+<body class="city-page">
+
+<!-- Incluir el header -->
+<div th:replace="~{header :: headerUserLogged}"></div>
+
+<!-- Título de la sucursal -->
+<div class="branch-title">
+    <h1>Valencia</h1>
+</div>
+
+<!-- Contenido específico de la sucursal de Valencia -->
+<div class="branch-info">
+    <!-- Texto descriptivo de la sucursal -->
+    <div class="branch-text">
+        <h2>Bienvenido a la Sucursal Valencia</h2>
+        <p>Desde su apertura en 2016, la sucursal de Valencia se ha dedicado a brindar el mejor servicio de alquiler de vehículos en la región. Nuestro objetivo es proporcionar una experiencia de alquiler cómoda y rápida para nuestros clientes.</p>
+        <p>Nuestra ubicación en el centro de Valencia permite un acceso conveniente para locales y visitantes que necesiten un vehículo en la ciudad.</p>
+        <p>La flota incluye vehículos compactos, familiares y algunos modelos de lujo para satisfacer cualquier preferencia.</p>
+        <p>Dirección: Avenida del Puerto, 45, Valencia, España</p>
+        <p>Teléfono: +34 961 234 567</p>
+        <p>Horario: Lunes a Viernes de 9:00 a 18:00 | Sábados de 10:00 a 14:00</p>
+    </div>
+    <div>
+    <!-- Imagen de la sucursal -->
+    <div class="branch-image">
+        <img src="/images/valencia.jpg" alt="Sucursal Valencia" class="branch-img">
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <button class="action-btn" onclick="window.location.href='/vehiculos?ciudad=Sevilla'">Consulta los vehículos de esta sucursal</button>
+        <button class="action-btn" onclick="window.location.href='/home'">Realizar reserva</button>
+    </div>
+</div>
+</div>
+<!-- Incluir el footer -->
+<div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>

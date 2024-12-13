@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <style>
+
+        .form-container {
+            max-width: 650px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.4);
+
+        }
+
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background: linear-gradient(to right, #a8e6cf, #81c784, #388e3c); /* Verde más oscuro */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave alrededor del botón */
+        color: white; /* Asegura que el texto permanezca blanco */
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-container .link a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .form-container .link a:hover {
+            text-decoration: underline;
+        }
+
+        .mensaje-exito {
+
+            top: 20px;
+            right: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+            text-align:center;
+
+        }
+
+        .fondo-gradiente{
+background: linear-gradient(to right, #dbeafe, #93c5fd, #3b82f6);
+}
+
+.saludo{
+font-size: 2em; /* Tamaño grande para destacar */
+    color: #ffffff; /* Texto blanco */
+    text-align: center; /* Centrado horizontal */
+    margin: 20px 0; /* Espaciado superior e inferior */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+    font-family: 'Arial', sans-serif; /* Fuente moderna y legible */
+    letter-spacing: 1px; /* Espaciado entre letras para mayor legibilidad */
+}
+
+
+
+    </style>
+</head>
+<body class="fondo-gradiente">
+
+
+<div th:replace="~{header :: headerUserLogged}"></div>
+
+<h1 class="saludo">Perfil de: <span th:text="${usuario.nombreUsuario}"> </span></h1>
+
+<div class="form-container">
+    <div id="mensajeExito" class="mensaje-exito" th:if="${mensajeExito}" th:text="${mensajeExito}"></div>
+    <h1>Editar Perfil</h1>
+    <form th:action="@{/user/mi-perfil}" method="post">
+        <input type="hidden" th:field="*{usuario.id_Usuario}" />
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{usuario.email}" required>
+
+        <label for="username">Nombre de Usuario:</label>
+        <input type="text" id="username" th:field="*{usuario.nombreUsuario}" required>
+
+        <div th:if="${usuario.es_Cliente}">
+        <!-- Datos del Cliente -->
+            <input type="hidden" th:field="*{cliente.id_Cliente}">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{cliente.nombre}" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" th:field="*{cliente.apellido}" required>
+
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" th:field="*{cliente.dni}" required>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" th:field="*{cliente.direccion}" required>
+
+            <label for="numero">Número:</label>
+            <input type="text" id="numero" th:field="*{cliente.telefono}" required>
+
+        </div>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <div class="link">
+        <a th:href="@{/user/cambiar-password}">Cambiar Contraseña</a>
+    </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const mensajeExito = document.getElementById('mensajeExito');
+        if (mensajeExito) {
+            mensajeExito.style.display = 'block';
+            setTimeout(() => {
+                mensajeExito.style.display = 'none';
+            }, 3000); // Ocultar después de 3 segundos
+        }
+    });
+</script>
+
+</body>
+</html>

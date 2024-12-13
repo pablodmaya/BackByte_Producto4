@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysql-backbyte:
+    image: mysql:8.0
+    container_name: mysql-backbyte
+    environment:
+      MYSQL_DATABASE: backbyte
+      MYSQL_USER: BackByte
+      MYSQL_PASSWORD: BackByte
+    ports:
+      - "3307:3306"  # Mapea el puerto 3306 del contenedor al puerto 3307 del host
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persiste los datos de MySQL
+
+  springboot-app:
+    build:
+      context: .  # Contexto de construcción, que es la raíz del proyecto
+      dockerfile: Dockerfile  # Nombre del archivo Dockerfile (ajústalo si es necesario)
+    container_name: springboot-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-backbyte:3306/backbyte
+      SPRING_DATASOURCE_USERNAME: BackByte
+      SPRING_DATASOURCE_PASSWORD: BackByte
+    ports:
+      - "8080:8080"  # Mapea el puerto 8080 para acceder a la aplicación
+    depends_on:
+      - mysql-backbyte  # Espera a que el contenedor MySQL esté listo antes de iniciar
+
+volumes:
+  mysql_data:

@@ -1,0 +1,239 @@
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Reset de márgenes y padding */
+html, body {
+    height: 100%; /* El cuerpo ocupa toda la altura de la ventana */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita barras laterales horizontales */
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Contenedor principal (con flexbox) */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+}
+
+/* Barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Logo y nombre en el header */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.site-name {
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Menú de navegación */
+.navbar-center {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-grow: 1;
+    align-items: center;
+}
+
+/* Estilo para los enlaces en el navbar */
+.navbar-center .auth-links a,
+.navbar-center .dropdown button {
+    color: white;
+    font-size: 1.1em;
+    text-decoration: none;
+}
+
+/* Menú desplegable */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.dropbtn {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #3498db;
+}
+
+/* Estilo para las opciones de inicio de sesión y registro */
+.auth-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.auth-links a:hover {
+    color: #3498db;
+}
+
+/* Sección de imagen principal */
+.main-image {
+    position: absolute; /* La imagen de fondo debe estar fija detrás del contenido */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Asegura que ocupe toda la altura del contenedor */
+    background-image: url('/images/fondoHome2.jpg'); /* Imagen principal */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1; /* La imagen estará detrás del contenido */
+}
+
+/* Formulario de búsqueda de vehículos */
+.search-form {
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro y semitransparente */
+    padding: 40px; /* Aumentar padding para mayor tamaño */
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1.33em; /* Aumentar tamaño de texto en un 33% */
+    max-width: 90%;
+    width: 1066px; /* Aumentar el tamaño del formulario en un 33% (800px -> 1066px) */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Ajustamos el espacio entre los elementos */
+    position: absolute; /* Lo posicionamos encima de la imagen */
+    top: 50%; /* Colocamos el formulario a la mitad de la pantalla */
+    left: 50%; /* Lo centramos horizontalmente */
+    transform: translate(-50%, -50%); /* Lo centra completamente en el medio, ajustando también la vertical */
+    z-index: 2; /* Asegura que esté por encima de la imagen */
+}
+
+/* Formulario y demás estilos */
+.search-form .vehicle-type {
+    display: flex;
+    gap: 55px;
+    justify-content: center;
+    margin-bottom: 15px; /* Aumentamos el espacio entre los elementos */
+}
+
+.search-form .vehicle-type input[type="radio"] {
+    display: none;
+}
+
+.search-form .vehicle-type label {
+    background-color: #666;
+    padding: 17px 34px; /* Aumentamos el tamaño de los botones */
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+.search-form .vehicle-type input[type="radio"]:checked + label {
+    background-color: #ff9900;
+}
+
+/* Estilos para las etiquetas <label> */
+.search-form label {
+    font-size: 1.4em; /* Aumentamos el tamaño del texto de las etiquetas */
+    text-align: center; /* Centrar el texto dentro de las etiquetas */
+    margin-bottom: 12px; /* Añadimos separación entre la etiqueta y el campo */
+}
+
+/* Filas de formulario: lugar de recogida y destino, fechas */
+.search-form .row {
+    display: flex;
+    gap: 22px; /* Aumentamos el espacio entre los elementos */
+    justify-content: space-between;
+}
+
+.search-form .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para los campos de entrada (input) */
+.search-form input[type="text"],
+.search-form input[type="date"],
+.search-form select {
+    font-size: 1.2em; /* Aumentamos el tamaño de la fuente dentro de los campos */
+    padding: 12px 10px; /* Aumentamos el padding dentro de los campos */
+    margin-top: 1px; /* Separación entre el texto y el campo de entrada */
+    border-radius: 5px;
+    border: none;
+    text-align: center; /* Centramos el texto dentro del campo */
+}
+
+/* Botón de búsqueda */
+.search-form button {
+    background-color: #ff9900;
+    color: #ffffff;
+    padding: 32px 64px; /* Aumentamos el tamaño del botón */
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    align-self: center;
+}
+
+.search-form button:hover {
+    background-color: #ff7700;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.2em;
+    width: 100%;
+    margin-top: auto; /* Esto empuja el footer al final */
+    position: relative;
+    z-index: 2; /* Hace que el footer se apile sobre la imagen */
+}

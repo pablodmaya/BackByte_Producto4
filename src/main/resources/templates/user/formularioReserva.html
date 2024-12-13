@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Cliente y Reservar</title>
+    <!-- Bootstrap 4.5.2 CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/buscarVehiculos.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+</head>
+<body class="fondo-gradiente">
+
+<div th:replace="~{header :: headerUserLogged}"></div>
+
+<div class="form-container-cliente">
+    <h1 class="titulo">Registra tus datos y confirma tu reserva</h1>
+    <form th:action="@{/user/registrarClienteReserva}" method="post">
+        <!-- Campo oculto para asociar la reserva al vehículo seleccionado -->
+        <input type="hidden" name="idVehiculo" th:value="${idVehiculo}">
+        <input type="hidden" name="startDate" th:value="${startDate}">
+        <input type="hidden" name="endDate" th:value="${endDate}">
+
+        <p><strong>Fecha de Recogida:</strong> <span th:text="${startDate}"></span></p>
+        <p><strong>Fecha de Devolución:</strong> <span th:text="${endDate}"></span></p>
+
+
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required class="input-field">
+        </div>
+
+        <!-- Apellido -->
+        <div class="form-group">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required class="input-field">
+        </div>
+
+        <!-- DNI -->
+        <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" name="dni" required class="input-field">
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required class="input-field">
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required class="input-field">
+        </div>
+
+        <!-- Botón para confirmar -->
+        <button type="submit" class="submit-btn">Confirmar Reserva</button>
+    </form>
+</div>
+
+<div th:replace="footer :: footer"></div>
+
+</body>
+</html>

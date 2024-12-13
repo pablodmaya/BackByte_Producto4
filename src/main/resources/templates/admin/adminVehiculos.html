@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de Vehículos</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body class="vehiculo-page">
+<!-- Header -->
+<div th:replace="~{header :: headerAdminLogged}"></div>
+
+<div class="container mt-5">
+  <h1>Listado de Vehículos</h1>
+
+  <!-- Formulario de filtrado -->
+  <form method="get" action="/adminVehiculos" class="mb-3">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label for="ciudad" class="form-label">Ciudad:</label>
+        <select name="ciudad" id="ciudad" class="form-select">
+          <option value="">Seleccionar ciudad</option>
+          <th:block th:each="ciudad : ${ciudades}">
+            <option th:value="${ciudad}" th:text="${ciudad}"></option>
+          </th:block>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="tipo" class="form-label">Tipo:</label>
+        <select name="tipo" id="tipo" class="form-select">
+          <option value="">Seleccionar tipo</option>
+          <th:block th:each="tipo : ${tiposVehiculo}">
+            <option th:value="${tipo}" th:text="${tipo}"></option>
+          </th:block>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="maxPrecio" class="form-label">Precio máximo:</label>
+        <input type="number" name="maxPrecio" id="maxPrecio" step="0.01" class="form-control" />
+      </div>
+      <div class="col-md-2">
+        <label for="minPrecio" class="form-label">Precio mínimo:</label>
+        <input type="number" name="minPrecio" id="minPrecio" step="0.01" class="form-control" />
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Botón para añadir un nuevo vehículo -->
+  <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+    Añadir Vehículo
+  </button>
+
+  <!-- Listado de vehículos -->
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Matrícula</th>
+      <th>Precio por día</th>
+      <th>Localización</th>
+      <th>Tipo</th>
+      <th>Imagen</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="vehiculo : ${vehiculos}">
+      <tr>
+        <td th:text="${vehiculo.marca}"></td>
+        <td th:text="${vehiculo.modelo}"></td>
+        <td th:text="${vehiculo.matricula}"></td>
+        <td th:text="${vehiculo.precioDia}"></td>
+        <td th:text="${vehiculo.localizacion}"></td>
+        <td th:text="${vehiculo.tipoVehiculo}"></td>
+        <td>
+          <img th:src="@{'/images/Vehiculo/Vehiculo' + ${vehiculo.id_Vehiculo} + '.png'}" alt="Imagen del vehículo" style="width: 100px; height: auto; border-radius: 5px;">
+        </td>
+        <td>
+
+          <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editVehicleModal"
+                  th:attr="data-id=${vehiculo.id_Vehiculo}, data-marca=${vehiculo.marca}, data-modelo=${vehiculo.modelo}, data-matricula=${vehiculo.matricula}, data-precio=${vehiculo.precioDia}, data-localizacion=${vehiculo.localizacion}, data-tipo=${vehiculo.tipoVehiculo}">
+            Editar
+          </button>
+          <a th:href="@{/vehiculos/eliminar/{id}(id=${vehiculo.id_Vehiculo})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?');">
+            Eliminar
+          </a>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal para añadir vehículo -->
+<div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form th:action="@{/vehiculos/agregar}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addVehicleModalLabel">Añadir Vehículo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Campos para añadir vehículo -->
+          <div class="mb-3">
+            <label for="marca" class="form-label">Marca:</label>
+            <input type="text" class="form-control" name="marca" required>
+          </div>
+          <div class="mb-3">
+            <label for="modelo" class="form-label">Modelo:</label>
+            <input type="text" class="form-control" name="modelo" required>
+          </div>
+          <div class="mb-3">
+            <label for="matricula" class="form-label">Matrícula:</label>
+            <input type="text" class="form-control" name="matricula" required>
+          </div>
+          <div class="mb-3">
+            <label for="precioDia" class="form-label">Precio por día:</label>
+            <input type="number" step="0.01" class="form-control" name="precioDia" required>
+          </div>
+          <div class="mb-3">
+            <label for="localizacion" class="form-label">Localización:</label>
+            <select name="localizacion" class="form-select" required>
+              <th:block th:each="ciudad : ${ciudades}">
+                <option th:value="${ciudad}" th:text="${ciudad}"></option>
+              </th:block>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="tipoVehiculo" class="form-label">Tipo de Vehículo:</label>
+            <select name="tipoVehiculo" class="form-select" id="tipoVehiculo" onchange="actualizarCamposTipoVehiculo()" required>
+              <option value="" selected>Seleccionar tipo de vehículo</option>
+              <th:block th:each="tipo : ${tiposVehiculo}">
+                <option th:value="${tipo}" th:text="${tipo}"></option>
+              </th:block>
+            </select>
+          </div>
+
+
+          <!-- Campos adicionales para Coche -->
+          <div id="camposCoche" class="mb-3" style="display:none;">
+            <h5>Datos del Coche</h5>
+            <div class="mb-3">
+              <label for="plazas" class="form-label">Número de plazas:</label>
+              <input type="number" class="form-control" name="plazas" min="2" max="5" required>
+            </div>
+            <div class="mb-3">
+              <label for="puertas" class="form-label">Número de puertas:</label>
+              <input type="number" class="form-control" name="puertas" min="3" max="5">
+            </div>
+            <div class="mb-3">
+              <label for="color" class="form-label">Color:</label>
+              <input type="text" class="form-control" name="color">
+            </div>
+          </div>
+
+
+          <!-- Campos adicionales para Moto -->
+          <div id="camposMoto" class="mb-3" style="display:none;">
+            <h5>Datos de la Moto</h5>
+            <div class="mb-3">
+              <label for="cc" class="form-label">Cilindrada (cc):</label>
+              <input type="number" class="form-control" name="cc" min="50">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Modal para editar vehículo -->
+<div class="modal fade" id="editVehicleModal" tabindex="-1" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="editVehicleForm" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editVehicleModalLabel">Editar Vehículo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="editVehicleId">
+          <div class="mb-3">
+            <label for="editMarca" class="form-label">Marca:</label>
+            <input type="text" class="form-control" name="marca" id="editMarca" required>
+          </div>
+          <div class="mb-3">
+            <label for="editModelo" class="form-label">Modelo:</label>
+            <input type="text" class="form-control" name="modelo" id="editModelo" required>
+          </div>
+          <div class="mb-3">
+            <label for="editMatricula" class="form-label">Matrícula:</label>
+            <input type="text" class="form-control" name="matricula" id="editMatricula" required>
+          </div>
+          <div class="mb-3">
+            <label for="editPrecioDia" class="form-label">Precio por día:</label>
+            <input type="number" step="0.01" class="form-control" name="precioDia" id="editPrecioDia" required>
+          </div>
+          <div class="mb-3">
+            <label for="editLocalizacion" class="form-label">Localización:</label>
+            <select name="localizacion" class="form-select" id="editLocalizacion" required>
+              <th:block th:each="ciudad : ${ciudades}">
+                <option th:value="${ciudad}" th:text="${ciudad}"></option>
+              </th:block>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="editTipoVehiculo" class="form-label">Tipo de Vehículo:</label>
+            <select name="tipoVehiculo" class="form-select" id="editTipoVehiculo" required>
+              <th:block th:each="tipo : ${tiposVehiculo}">
+                <option th:value="${tipo}" th:text="${tipo}"></option>
+              </th:block>
+            </select>
+          </div>
+
+          <!-- Campos adicionales para Coche -->
+          <div id="editCamposCoche" class="mb-3" style="display:none;">
+            <h5>Datos del Coche</h5>
+            <div class="mb-3">
+              <label for="editPlazas" class="form-label">Número de plazas:</label>
+              <input type="number" class="form-control" name="plazas" id="editPlazas" min="2" max="5">
+            </div>
+            <div class="mb-3">
+              <label for="editPuertas" class="form-label">Número de puertas:</label>
+              <input type="number" class="form-control" name="puertas" id="editPuertas" min="3" max="5">
+            </div>
+            <div class="mb-3">
+              <label for="editColor" class="form-label">Color:</label>
+              <input type="text" class="form-control" name="color" id="editColor">
+            </div>
+          </div>
+
+          <!-- Campos adicionales para Moto -->
+          <div id="editCamposMoto" class="mb-3" style="display:none;">
+            <h5>Datos de la Moto</h5>
+            <div class="mb-3">
+              <label for="editCc" class="form-label">Cilindrada (cc):</label>
+              <input type="number" class="form-control" name="cc" id="editCc" min="50">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Incluir el footer -->
+<div th:replace="footer :: footer"></div>
+
+<script src="/js/vehiculosCrud.js" defer></script>
+
+
+</body>
+</html>

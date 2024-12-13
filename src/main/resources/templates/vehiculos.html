@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de Vehículos</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body class="vehiculo-page">
+<!-- Header -->
+<div th:replace="~{header :: header}"></div>
+
+<div class="container mt-5">
+  <h1>Listado de Vehículos</h1>
+
+  <!-- Formulario de filtrado -->
+  <form method="get" action="/vehiculos" class="mb-3">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label for="ciudad" class="form-label">Ciudad:</label>
+        <select name="ciudad" id="ciudad" class="form-select">
+          <option value="">Seleccionar ciudad</option>
+          <th:block th:each="ciudad : ${ciudades}">
+            <option th:value="${ciudad}" th:text="${ciudad}"></option>
+          </th:block>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="tipo" class="form-label">Tipo:</label>
+        <select name="tipo" id="tipo" class="form-select">
+          <option value="">Seleccionar tipo</option>
+          <th:block th:each="tipo : ${tiposVehiculo}">
+            <option th:value="${tipo}" th:text="${tipo}"></option>
+          </th:block>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="maxPrecio" class="form-label">Precio máximo:</label>
+        <input type="number" name="maxPrecio" id="maxPrecio" step="0.01" class="form-control" />
+      </div>
+      <div class="col-md-2">
+        <label for="minPrecio" class="form-label">Precio mínimo:</label>
+        <input type="number" name="minPrecio" id="minPrecio" step="0.01" class="form-control" />
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+      </div>
+    </div>
+  </form>
+
+
+  <!-- Listado de vehículos -->
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Matrícula</th>
+      <th>Precio por día</th>
+      <th>Localización</th>
+      <th>Tipo</th>
+      <th>Imagen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="vehiculo : ${vehiculos}">
+      <tr>
+        <td th:text="${vehiculo.marca}"></td>
+        <td th:text="${vehiculo.modelo}"></td>
+        <td th:text="${vehiculo.matricula}"></td>
+        <td th:text="${vehiculo.precioDia}"></td>
+        <td th:text="${vehiculo.localizacion}"></td>
+        <td th:text="${vehiculo.tipoVehiculo}"></td>
+        <td>
+          <img th:src="@{'/images/Vehiculo/Vehiculo' + ${vehiculo.id_Vehiculo} + '.png'}" alt="Imagen del vehículo" style="width: 100px; height: auto; border-radius: 5px;">
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Incluir el footer -->
+<div th:replace="footer :: footer"></div>
+
+<script src="/js/vehiculosCrud.js" defer></script>
+
+
+</body>
+</html>

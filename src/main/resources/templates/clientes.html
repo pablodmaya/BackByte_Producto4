@@ -1,0 +1,152 @@
+
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Clientes</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{header :: headerAdminLogged}"></div>
+
+<div class="container mt-5">
+    <h1>Listado de Clientes</h1>
+
+
+
+    <!-- Botón para añadir un nuevo vehículo -->
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addClientModal">
+        Añadir Cliente
+    </button>
+
+    <!-- Listado de Clientes -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="cliente : ${clientes}">
+            <tr>
+                <td th:text="${cliente.nombre}"></td>
+                <td th:text="${cliente.apellido}"></td>
+                <td th:text="${cliente.dni}"></td>
+                <td th:text="${cliente.direccion}"></td>
+                <td th:text="${cliente.telefono}"></td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editClientModal"
+                            th:attr="data-id=${cliente.id_Cliente}, data-nombre=${cliente.nombre}, data-apellido=${cliente.apellido}, data-dni=${cliente.dni}, data-direccion=${cliente.direccion}, data-telefono=${cliente.telefono}">
+                        Editar
+                    </button>
+                    <a th:href="@{/clientes/eliminar/{id}(id=${cliente.id_Cliente})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para añadir cliente -->
+<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/clientes/agregar}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addClientModalLabel">Añadir Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Campos para añadir cliente -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" name="apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dni" class="form-label">DNI:</label>
+                        <input type="text" class="form-control" name="dni" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" name="direccion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control" name="telefono" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Modal para editar cliente -->
+<div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editClientForm" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editClientModalLabel">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editClientId">
+                    <div class="mb-3">
+                        <label for="editNombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" name="nombre" id="editNombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editApellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" name="apellido" id="editApellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDni" class="form-label">DNI:</label>
+                        <input type="text" class="form-control" name="dni" id="editDni" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDireccion" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" name="direccion" id="editDireccion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTelefono" class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control" name="telefono" id="editTelefono" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Incluir el footer -->
+<div th:replace="footer :: footer"></div>
+
+<script src="/js/clienteCrud.js"></script>
+
+</body>
+</html>

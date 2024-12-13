@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucursal Sevilla</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/city.css"> <!-- Estilo específico de Sevilla -->
+</head>
+<body class="city-page">
+
+<!-- Incluir el header -->
+<div th:replace="~{header :: headerAdminLogged}"></div>
+
+<!-- Título de la sucursal -->
+<div class="branch-title">
+    <h1>Sevilla</h1>
+</div>
+
+<!-- Contenido específico de la sucursal de Sevilla -->
+<div class="branch-info">
+    <!-- Texto descriptivo de la sucursal -->
+    <div class="branch-text">
+        <h2>Bienvenido a la Sucursal Sevilla</h2>
+        <p>La sucursal de Sevilla abrió sus puertas en 2012 y se ha convertido en una referencia en la región para el alquiler de vehículos. Estamos comprometidos en ofrecer la mejor experiencia para nuestros clientes, tanto locales como visitantes.</p>
+        <p>Nuestra ubicación estratégica cerca del centro histórico de Sevilla permite un acceso rápido y fácil desde cualquier parte de la ciudad.</p>
+        <p>Contamos con una flota variada, que incluye vehículos familiares, deportivos y una selección de motocicletas para los entusiastas de las dos ruedas.</p>
+        <p>Dirección: Calle de la Constitución, 28, Sevilla, España</p>
+        <p>Teléfono: +34 954 123 456</p>
+        <p>Horario: Lunes a Viernes de 9:00 a 18:00 | Sábados de 10:00 a 14:00</p>
+    </div>
+    <div>
+    <!-- Imagen de la sucursal -->
+    <div class="branch-image">
+        <img src="/images/sevilla.jpg" alt="Sucursal Sevilla" class="branch-img">
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+        <button class="action-btn" onclick="window.location.href='/vehiculos?ciudad=Sevilla'">Consulta los vehículos de esta sucursal</button>
+        <button class="action-btn" onclick="window.location.href='/home'">Realizar reserva</button>
+    </div>
+</div>
+</div>
+
+<!-- Incluir el footer -->
+<div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>
