@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/registro", "/registro/registrarUsuario", "/favicon.ico").permitAll()
                         .requestMatchers("/madrid", "/barcelona", "/bilbao", "/sevilla", "/valencia","/vehiculos").permitAll()
                         .requestMatchers("/api/*").permitAll()
+                        .requestMatchers("/swagger-ui/*","/swagger-ui.html").permitAll()
                         .requestMatchers("/admin/**").hasRole("admin")
                         .requestMatchers("/user/**").hasRole("user")
                         .anyRequest().authenticated()
