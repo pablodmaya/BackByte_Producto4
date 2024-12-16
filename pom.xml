@@ -35,6 +35,24 @@
 			<artifactId>spring-boot-starter-graphql</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.jsonwebtoken</groupId> <!-- Dependencia para jsonwebtoken de la API de JJWT -->
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<!-- Dependencia para la implementación de JJWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+
+		<!-- Dependencia para la interopabilidad con Jackson (para manejar JSON) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
