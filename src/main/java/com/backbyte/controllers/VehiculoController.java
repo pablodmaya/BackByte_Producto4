@@ -7,9 +7,14 @@ import com.backbyte.models.Vehiculo;
 import com.backbyte.models.TipoVehiculo;
 import com.backbyte.service.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping
@@ -30,29 +35,68 @@ public class VehiculoController {
         return "vehiculos";
     }
 
-    @GetMapping("/user/vehiculos")
-    public String getUserVehiculos(@RequestParam(required = false) String ciudad,
-                                   @RequestParam(required = false) String tipo,
-                                   @RequestParam(required = false) Double minPrecio,
-                                   @RequestParam(required = false) Double maxPrecio,
-                                   Model model) {
-        model.addAttribute("vehiculos", vehiculoService.getVehiculos(ciudad, tipo, minPrecio, maxPrecio));
-        model.addAttribute("ciudades", vehiculoService.getCiudadesDisponibles());
-        model.addAttribute("tiposVehiculo", vehiculoService.getTiposVehiculoDisponibles());
-        return "/user/userVehiculos"; // Devuelve la plantilla Thymeleaf "userVehiculos.html"
+    @RestController
+    @RequestMapping("/user")
+    public class UserVehiculosController {
+
+        private final VehiculoService vehiculoService;
+
+        @Autowired
+        public UserVehiculosController(VehiculoService vehiculoService) {
+            this.vehiculoService = vehiculoService;
+        }
+
+        @GetMapping("/vehiculos")
+        public ResponseEntity<Map<String, Object>> getUserVehiculos(
+                @RequestParam(required = false) String ciudad,
+                @RequestParam(required = false) String tipo,
+                @RequestParam(required = false) Double minPrecio,
+                @RequestParam(required = false) Double maxPrecio) {
+
+            // Obtener los vehículos filtrados
+            List<Vehiculo> vehiculos = vehiculoService.getVehiculos(ciudad, tipo, minPrecio, maxPrecio);
+            // Obtener otras listas necesarias para la respuesta
+
+
+            // Crear la respuesta con los datos
+            Map<String, Object> response = new HashMap<>();
+            response.put("vehiculos", vehiculos);
+
+
+            return ResponseEntity.ok(response);
+        }
     }
 
 
-    @GetMapping("/admin/vehiculos")
-    public String getAdminVehiculos(@RequestParam(required = false) String ciudad,
-                                    @RequestParam(required = false) String tipo,
-                                    @RequestParam(required = false) Double minPrecio,
-                                    @RequestParam(required = false) Double maxPrecio,
-                                    Model model) {
-        model.addAttribute("vehiculos", vehiculoService.getVehiculos(ciudad, tipo, minPrecio, maxPrecio));
-        model.addAttribute("ciudades", vehiculoService.getCiudadesDisponibles());
-        model.addAttribute("tiposVehiculo", vehiculoService.getTiposVehiculoDisponibles());
-        return "/admin/adminVehiculos"; // Devuelve la plantilla Thymeleaf "userVehiculos.html"
+    @RestController
+    @RequestMapping("/admin")
+    public class AdminVehiculosController {
+
+        private final VehiculoService vehiculoService;
+
+        @Autowired
+        public AdminVehiculosController(VehiculoService vehiculoService) {
+            this.vehiculoService = vehiculoService;
+        }
+
+        @GetMapping("/vehiculos")
+        public ResponseEntity<Map<String, Object>> getAdminVehiculos(
+                @RequestParam(required = false) String ciudad,
+                @RequestParam(required = false) String tipo,
+                @RequestParam(required = false) Double minPrecio,
+                @RequestParam(required = false) Double maxPrecio) {
+
+            // Obtener los vehículos filtrados
+            List<Vehiculo> vehiculos = vehiculoService.getVehiculos(ciudad, tipo, minPrecio, maxPrecio);
+            // Obtener otras listas necesarias para la respuesta
+
+
+            // Crear la respuesta con los datos
+            Map<String, Object> response = new HashMap<>();
+            response.put("vehiculos", vehiculos);
+
+            return ResponseEntity.ok(response);
+        }
     }
 
 

@@ -6,6 +6,8 @@ import com.backbyte.repository.ClienteRepository;
 import com.backbyte.repository.UsuarioRepository;
 import com.backbyte.repository.VehiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -190,50 +193,46 @@ public class ReservasVehiculosController {
     }
 
     @GetMapping("/user/mis-reservas")
-    public String mostrarReservas(Model model, String success) {
-
+    public ResponseEntity<?> mostrarReservas(@RequestParam(required = false) String success) {
+        // Obtener usuario autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Nombre de usuario del usuario autenticado
+        String username = authentication.getName();  // Nombre del usuario autenticado
 
-
-
-        // Verificar si el usuario ya es cliente
+        // Buscar usuario por nombre
         Usuario usuario = UsuarioRepository.findByNombreUsuario(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
-        if (!usuario.getEs_Cliente() ) {
-            // Si no es cliente, redirigir o mostrar mensaje adecuado
-            model.addAttribute("usuario", usuario);
-            return "user/misReservas"; // O cualquier URL que decida redirigir
-        }
-
-        // Obtener el ID del usuario autenticado
+        // Obtener ID de cliente
         Integer idUsuario = usuario.getId_Usuario();
-
         Cliente cliente = clienteRepository.findByUsuarioId(Long.valueOf(idUsuario));
-        Integer idCliente = cliente.getId_Cliente();
 
-        List<Double> preciosTotales = alquilerRepository.calcularPrecioTotalPorReserva(Long.valueOf(idCliente));
+        // Si el cliente no existe, lo tratamos igual que un cliente no registrado (pero no lanzamos 403)
+        boolean esCliente = cliente != null && usuario.getEs_Cliente();
 
-        // Agregar los precios al modelo para pasarlos a la vista
-        model.addAttribute("preciosTotales", preciosTotales);
+        // Obtener precios totales (aunque esté vacío si no es cliente)
+        List<Double> preciosTotales = esCliente ? alquilerRepository.calcularPrecioTotalPorReserva(Long.valueOf(cliente.getId_Cliente())) : new ArrayList<>();
 
+        // Buscar alquileres asociados al cliente (si es cliente, sino, retornamos lista vacía)
+        List<Alquiler> alquileres = esCliente ? alquilerRepository.findByClienteId(cliente.getId_Cliente().longValue()) : new ArrayList<>();
 
-        // Buscar alquileres asociados al cliente
-        List<Alquiler> alquileres = alquilerRepository.findByClienteId(cliente.getId_Cliente().longValue());
+        // Construir respuesta
+        Map<String, Object> response = new HashMap<>();
+        response.put("usuario", usuario);
+        response.put("cliente", cliente);
+        response.put("alquileres", alquileres);
+        response.put("preciosTotales", preciosTotales);
 
-        model.addAttribute("cliente", cliente);
-        // Pasar los datos al modelo
-        model.addAttribute("alquileres", alquileres);
-
-        model.addAttribute("usuario", usuario);
-
-//         Agregar mensaje de éxito si existe
-        if ("true".equals(success)) {
-            model.addAttribute("mensajeExito", "Reserva eliminada exitosamente.");
+        // Si el usuario no es cliente, incluir un mensaje indicando que no hay reservas
+        if (!esCliente) {
+            response.put("mensajeNoCliente", "Este usuario no tiene reservas ya que no es cliente.");
         }
 
-        return "user/misReservas";
+        // Mensaje de éxito si existe
+        if ("true".equals(success)) {
+            response.put("mensajeExito", "Reserva eliminada exitosamente.");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/eliminarReserva/{id}")
@@ -385,6 +384,118 @@ public class ReservasVehiculosController {
 
         return "redirect:/user/cambiar-password" + "?success=true";
     }
+
+
+    @RestController
+    @RequestMapping("/api/token/") // Ruta base para la API
+    public class UsuarioController {
+
+        private final UsuarioRepository usuarioRepository;
+        private final ClienteRepository clienteRepository;
+
+        public UsuarioController(UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
+            this.usuarioRepository = usuarioRepository;
+            this.clienteRepository = clienteRepository;
+        }
+
+        @GetMapping("/mis-reservas")
+        public ResponseEntity<?> mostrarReservas(@RequestParam(required = false) String success) {
+            // Obtener usuario autenticado
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();  // Nombre del usuario autenticado
+
+            // Buscar usuario por nombre
+            Usuario usuario = UsuarioRepository.findByNombreUsuario(username)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+            // Obtener ID de cliente
+            Integer idUsuario = usuario.getId_Usuario();
+            Cliente cliente = clienteRepository.findByUsuarioId(Long.valueOf(idUsuario));
+
+            // Si el cliente no existe, lo tratamos igual que un cliente no registrado (pero no lanzamos 403)
+            boolean esCliente = cliente != null && usuario.getEs_Cliente();
+
+            // Obtener precios totales (aunque esté vacío si no es cliente)
+            List<Double> preciosTotales = esCliente ? alquilerRepository.calcularPrecioTotalPorReserva(Long.valueOf(cliente.getId_Cliente())) : new ArrayList<>();
+
+            // Buscar alquileres asociados al cliente (si es cliente, sino, retornamos lista vacía)
+            List<Alquiler> alquileres = esCliente ? alquilerRepository.findByClienteId(cliente.getId_Cliente().longValue()) : new ArrayList<>();
+
+            // Construir respuesta
+            Map<String, Object> response = new HashMap<>();
+            response.put("usuario", usuario);
+            response.put("cliente", cliente);
+            response.put("alquileres", alquileres);
+            response.put("preciosTotales", preciosTotales);
+
+            // Si el usuario no es cliente, incluir un mensaje indicando que no hay reservas
+            if (!esCliente) {
+                response.put("mensajeNoCliente", "Este usuario no tiene reservas ya que no es cliente.");
+            }
+
+            // Mensaje de éxito si existe
+            if ("true".equals(success)) {
+                response.put("mensajeExito", "Reserva eliminada exitosamente.");
+            }
+
+            return ResponseEntity.ok(response);
+        }
+
+        @DeleteMapping("/reservas/{id}")
+        public ResponseEntity<?> eliminarReserva(@PathVariable Long id) {
+            try {
+                // Buscar el alquiler por su ID
+                Alquiler alquiler = alquilerRepository.findById(id)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada"));
+
+                // Eliminar el alquiler
+                alquilerRepository.delete(alquiler);
+
+                // Retornar una respuesta de éxito
+                return ResponseEntity.ok().body(Map.of("message", "Reserva eliminada exitosamente"));
+            } catch (ResponseStatusException ex) {
+                // Lanza el error directamente para casos de not found
+                throw ex;
+            } catch (Exception ex) {
+                // Retornar un error genérico en caso de otros problemas
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", "Error al eliminar la reserva", "details", ex.getMessage()));
+            }
+        }
+
+        @GetMapping("/mi-perfil")
+        public ResponseEntity<Map<String, Object>> mostrarPerfil(@RequestParam(required = false) String success) {
+
+            // Obtener el usuario autenticado
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName(); // Nombre de usuario del usuario autenticado
+
+            // Buscar al usuario en el repositorio
+            Usuario usuario = usuarioRepository.findByNombreUsuario(username)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Obtener el ID del usuario autenticado
+            Integer idUsuario = usuario.getId_Usuario();
+
+            // Si es cliente, buscar información adicional
+            Cliente cliente = clienteRepository.findByUsuarioId(Long.valueOf(idUsuario));
+
+            // Construir la respuesta como un Map para incluir múltiples datos
+            Map<String, Object> response = new HashMap<>();
+            response.put("usuario", usuario);
+            if (cliente != null) {
+                response.put("cliente", cliente);
+            }
+            if ("true".equals(success)) {
+                response.put("mensajeExito", "Se han actualizado tus datos!");
+            }
+
+            // Retornar la respuesta con código 200
+            return ResponseEntity.ok(response);
+        }
+    }
+
+
 
 }
 
