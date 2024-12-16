@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/home", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/registro", "/registro/registrarUsuario", "/favicon.ico").permitAll()
                         .requestMatchers("/madrid", "/barcelona", "/bilbao", "/sevilla", "/valencia","/vehiculos").permitAll()
+                        .requestMatchers("/api/*").permitAll()
                         .requestMatchers("/admin/**").hasRole("admin")
                         .requestMatchers("/user/**").hasRole("user")
                         .anyRequest().authenticated()
